@@ -5,8 +5,6 @@ from robobrowser import RoboBrowser
 import datetime
 import csv
 
-#Script from https://der-linux-admin.de/2017/11/google-keyword-ranking-check-mit-python/ I added the export for CSV
-
 
 sitename = sys.argv[1]
 keyword = "+".join(sys.argv[2:])
