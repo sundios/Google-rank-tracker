@@ -4,9 +4,11 @@
 Are you poor and dont have money to buy a entepriese rank tracker? Well today is your lucky day, with this python script, 
 a shell script and crontab you can automate Google rank checker in a few simple steps.
 I will explain step by step how to implement this and leave it running on a daily basis.
-One thing to note, currently the script does not use proxies to check for the keyword rankings, so if you are looking to run bug sets of keywords google will notice this and will start showing a captcha on the next seearch.
-Im planning on adding the use of proxies and a timeout between the queries to make.
-Prerequisite for this tutorial is an executable Python 3. 
+One thing to note, currently the script does not use proxies to check for the keyword rankings, so if you are looking to run big sets of keywords google will notice this and will start showing a captcha.
+
+Im planning on adding the use of proxies and a timeout between the queries so we can add big sets of Keywords.
+
+Prerequisite for this tutorial is Python 3 and terminal. 
 
 
 ## Table of Contents 
