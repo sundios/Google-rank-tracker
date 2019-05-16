@@ -29,15 +29,15 @@ Installation of Python robobrowser
 ```shell
 pip install robobrowser
 ```
-After all dependecies are installes we can start follow up to test the script is working fine.
+After all dependecies are installes we can start testing if the script is working fine.
 
 ## Running tests
-We open the temrinal and go to the folder that rank.py is saved and give the script executing rights.
+We open the terminal and go to the folder that `rank.py` is saved and give the script executing rights.
 
 ```shell
 chmod +x rank.py
 ```
-Now we are able to call our script followed by 2 arguments: the webiste we ar elooking for and the keyword we want to check
+Now we are able to call our script followed by 2 arguments: the webiste we are looking for and the keyword we want to check.
 
 ```shell
 python3 rank.py [website] [keyword]
