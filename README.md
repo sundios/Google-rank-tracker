@@ -106,9 +106,9 @@ after adding this we press esc and add `:wq` to save.
 
 ## Contributing and Questions
 
-If you want to contribute or fix anythin here eplease feel free to do so. 
+If you want to contribute or fix anything please feel free to do so. 
 
-If you have any question setting this up please contact me and I will try to answer back.
+If you have any question about setting this up please contact me and I will try to answer back.
 
 
 
