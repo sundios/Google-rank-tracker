@@ -29,7 +29,7 @@ Installation of Python robobrowser
 ```shell
 pip install robobrowser
 ```
-After all dependecies are installes we can start testing if the script is working fine.
+After all dependecies are installed we can start testing if the script is working fine.
 
 ## Running tests
 We open the terminal and go to the folder that `rank.py` is saved and give the script executing rights.
@@ -79,7 +79,7 @@ After we create the shell script we would need to make the script executable
 ```shell
 chmod +x rank.sh
 ```
-and then to test the shell script we go to the console and run it
+and then to test the shell script. We go to the console and run it
 
 ```shell
 ./rank.sh
