@@ -6,7 +6,7 @@ a shell script and crontab you can automate Google rank checker in a few simple 
 I will explain step by step how to implement this and leave it running on a daily basis.
 One thing to note, currently the script does not use proxies to check for the keyword rankings, so if you are looking to run big sets of keywords google will notice this and will start showing a captcha.
 
-Im planning on adding the use of proxies and a timeout between the queries so we can add big sets of Keywords.
+Im planning on adding the use of proxies, I added a timeout in between the queries so Google wont use the captcha.
 
 Prerequisite for this tutorial is Python 3 and terminal. 
 
@@ -61,15 +61,19 @@ This will also generate a CSV file in the folfer where `rank.py` is located with
 
 Now that we tested that `rank.py` works fine, we will go ahead and create a shell script that will check for multiple keywords.
 
-We create a new `.sh` file and add the terminal commands we run before multiple time with different keywords we want to check
+We create a new `.sh` file and add the terminal commands we run before multiple time with different keywords we want to check. We also include a time out ( `sleep` )  in between the command so that it looks like a normal behavior and Google dont ban you. Try to put different sleep time.
 
 ```shell
 #! /bin/bash
 
 /usr/bin/python3 /path_to_my_script/rank.py [website] [keyword1] 
+sleep 30
 /usr/bin/python3 /path_to_my_script/rank.py [website] [keyword2] 
+sleep 20
 /usr/bin/python3 /path_to_my_script/rank.py [website] [keyword3] 
+sleep 30
 /usr/bin/python3 /path_to_my_script/rank.py [website] [keyword4] 
+sleep 25
 /usr/bin/python3 /path_to_my_script/rank.py [website] [keyword5] 
 
 ```
