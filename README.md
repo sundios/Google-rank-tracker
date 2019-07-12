@@ -55,13 +55,13 @@ This will output The keyword, the ranking of the keyword, the URL that is rankin
 ```shell 
 nothing+package 7 https://www.uselessthingstobuy.com/product/give-nothing-for-the-person-who-has-everything/ 16-05-2019
 ```
-This will also generate a CSV file in the folfer where `rank.py` is located with all the information the terminal is showing.
+This will also generate a CSV file in the folder where `rank.py` is located. This will include all the information the terminal is showing.
 
 ## Creating a shell script
 
 Now that we tested that `rank.py` works fine, we will go ahead and create a shell script that will check for multiple keywords.
 
-We create a new `.sh` file and add the terminal commands we run before multiple time with different keywords we want to check. We also include a time out ( `sleep` )  in between the command so that it looks like a normal behavior and Google dont ban you. Try to put different sleep time.
+We create a new `.sh` file and add the terminal commands we run before. We add them multiple time with different keywords we want to check. We also include a time out ( `sleep` ) in between the command so that it looks like a normal behavior and Google dont ban you. Try to put different sleep time.
 
 ```shell
 #! /bin/bash
@@ -93,14 +93,14 @@ This will output 5 csv files and the output file name is composed by the date + 
 
 ## Cronjob
 
-Now that we have our sh file running fine we will set up a cronjob that will run every day at 5:00pm
+Now that we have our `.sh` file running fine we will set up a cronjob that will run every day at 5:00pm
 
 In the terminal we type
 
 ```shell
 crontab -e
 ```
-Then we will press the letter i to star editing and add the following
+Then we will press the letter i to star editing and we will add the following:
 
 ```
 0 17 * * * path_to_my_script/rank.sh
