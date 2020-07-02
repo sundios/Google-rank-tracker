@@ -9,9 +9,6 @@ One thing to note, currently the script does not use proxies to check for the ke
 
 **Update**: I have updated the script by adding the possibility of choosing what device you want to make the rank check. The 2 options are Mobile and Desktop. I will still leave the old script here but will change the name to rank_legacy.py.
 
-Prerequisite for this tutorial is Python 3.
-
-
 
 ## Table of Contents 
 
@@ -125,6 +122,9 @@ If you have any question or need help setting this up please open an issue and w
 
 
 
+**If you have a werkzeug Error Read this** As of February 2020 `werkzug` upgraded to 1.0.0 and RoboBrowser lazy developers havent fixed. To fix this you need to go to your Robobrowser folder on your computer something like (/Users/yourusername/opt/anaconda3/lib/python3.7/site-packages/robobrowser/) and open `browser.py` and add change ```from werkzeug import cached_property  ``` to ```from werkzeug.utils import cached_property```
+
+Please take a look at this url for more info: [Link to issue](https://github.com/jmcarp/robobrowser/issues/93)
 
 
 
