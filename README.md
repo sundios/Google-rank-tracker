@@ -1,14 +1,16 @@
 
 # Google Keyword Ranking Check with Python 
 
-Are you poor and dont have money to buy a entepriese rank tracker? Well today is your lucky day, with this python script, 
+Are you poor and don’t have money to buy an enterprise rank tracker? Well today is your lucky day, with this python script, 
 a shell script and crontab you can automate Google rank checker in a few simple steps.
 I will explain step by step how to implement this and leave it running on a daily basis.
 One thing to note, currently the script does not use proxies to check for the keyword rankings, so if you are looking to run big sets of keywords google will notice this and will start showing a captcha.
 
-**Update** : I have updated the script by adding the posibility of chosing what device you want to make the rank check. The 2 options are Mobile and Desktop. I will still leave the old script here but will change the name to rank_legacy.py.
+
+**Update**: I have updated the script by adding the possibility of choosing what device you want to make the rank check. The 2 options are Mobile and Desktop. I will still leave the old script here but will change the name to rank_legacy.py.
 
 Prerequisite for this tutorial is Python 3.
+
 
 
 ## Table of Contents 
@@ -29,7 +31,7 @@ Installation of Python robobrowser
 ```shell
 pip install robobrowser
 ```
-After all dependecies are installed we can start testing if the script is working fine.
+After all dependencies are installed, we can start testing if the script is working fine.
 
 ## Running tests
 We open the terminal and go to the folder that `rank.py` is saved and give the script executing rights.
@@ -37,7 +39,7 @@ We open the terminal and go to the folder that `rank.py` is saved and give the s
 ```shell
 chmod +x rank.py
 ```
-Now we are able to call our script followed by 3 arguments: the webiste we are looking for, the device we want to check on this can be mobile or desktop and the keyword we want to check.
+Now we are able to call our script followed by 3 arguments: the website we are looking for, the device we want to check on this can be mobile or desktop and the keyword we want to check.
 
 ```shell
 python3 rank.py [website] [device] [keyword]
@@ -50,9 +52,9 @@ We want to check the website https://www.uselessthingstobuy.com/ on mobile again
 python3 rank.py https://www.uselessthingstobuy.com/ mobile nothing package
 ```
 
-This will output The keyword, the ranking of the keyword, the URL that is ranking on Google, the device you chose and the date we did this rank check.
+This will output the keyword, the ranking of the keyword, the URL that is ranking on Google, the device you chose and the date we did this rank check.
 
-*Make sure that the device is lower case. If you mispell the device or add capital the script will run using mobile device as default*
+*Make sure that the device is lower case. If you misspell the device or add capital the script will run using mobile device as default*
 
 ```shell 
 nothing+package 1 https://www.uselessthingstobuy.com/product/give-nothing-for-the-person-who-has-everything/ mobile 01-07-2020
@@ -69,7 +71,7 @@ For example:
 
 Now that we tested that `rank.py` works fine, we will go ahead and create a shell script that will check for multiple keywords.
 
-We create a new `.sh` file and add the terminal commands we ran before. We add them multiple time with different keywords we want to check. We also include a time out ( `sleep` ) in between the command so that it looks like a normal behavior and Google dont ban you. Try to put different sleep time.
+We create a new `.sh` file and add the terminal commands we ran before. We add them multiple time with different keywords we want to check. We also include a time out ( `sleep` ) in between the command so that it looks like a normal behavior and Google don’t ban you. Try to put different sleep time.
 
 ```shell
 #! /bin/bash
