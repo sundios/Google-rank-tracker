@@ -1,14 +1,14 @@
 
-# Google Keyword Ranking Check with Python
+# Google Keyword Ranking Check with Python 
 
 Are you poor and dont have money to buy a entepriese rank tracker? Well today is your lucky day, with this python script, 
 a shell script and crontab you can automate Google rank checker in a few simple steps.
 I will explain step by step how to implement this and leave it running on a daily basis.
 One thing to note, currently the script does not use proxies to check for the keyword rankings, so if you are looking to run big sets of keywords google will notice this and will start showing a captcha.
 
-Im planning on adding the use of proxies, I added a timeout in between the queries so Google wont use the captcha.
+**Update** : I have updated the script by adding the posibility of chosing what device you want to make the rank check. The 2 options are Mobile and Desktop. I will still leave the old script here but will change the name to rank_legacy.py.
 
-Prerequisite for this tutorial is Python 3 and terminal. 
+Prerequisite for this tutorial is Python 3.
 
 
 ## Table of Contents 
@@ -37,44 +37,52 @@ We open the terminal and go to the folder that `rank.py` is saved and give the s
 ```shell
 chmod +x rank.py
 ```
-Now we are able to call our script followed by 2 arguments: the webiste we are looking for and the keyword we want to check.
+Now we are able to call our script followed by 3 arguments: the webiste we are looking for, the device we want to check on this can be mobile or desktop and the keyword we want to check.
 
 ```shell
-python3 rank.py [website] [keyword]
+python3 rank.py [website] [device] [keyword]
 ```
 
 ### For example 
-We want to check the website https://www.uselessthingstobuy.com/ against the keyword **nothing package**
+We want to check the website https://www.uselessthingstobuy.com/ on mobile against the keyword **nothing package**
 
 ```shell
-python3 rank.py https://www.uselessthingstobuy.com/ nothing package
+python3 rank.py https://www.uselessthingstobuy.com/ mobile nothing package
 ```
 
-This will output The keyword, the ranking of the keyword, the URL that is ranking on Google and the date we did this rank check.
+This will output The keyword, the ranking of the keyword, the URL that is ranking on Google, the device you chose and the date we did this rank check.
+
+*Make sure that the device is lower case. If you mispell the device or add capital the script will run using mobile device as default*
 
 ```shell 
-nothing+package 7 https://www.uselessthingstobuy.com/product/give-nothing-for-the-person-who-has-everything/ 16-05-2019
+nothing+package 1 https://www.uselessthingstobuy.com/product/give-nothing-for-the-person-who-has-everything/ mobile 01-07-2020
 ```
 This will also generate a CSV file in the folder where `rank.py` is located. This will include all the information the terminal is showing.
+
+For example:
+
+| Keyword         	| Rank 	| URL                                                                                        	| Device 	| Date       	|
+|-----------------	|------	|--------------------------------------------------------------------------------------------	|--------	|------------	|
+| nothing+package 	| 1    	| https://www.uselessthingstobuy.com/product/give-nothing-for-the-person-who-has-everything/ 	| mobile 	| 01-07-2020 	|
 
 ## Creating a shell script
 
 Now that we tested that `rank.py` works fine, we will go ahead and create a shell script that will check for multiple keywords.
 
-We create a new `.sh` file and add the terminal commands we run before. We add them multiple time with different keywords we want to check. We also include a time out ( `sleep` ) in between the command so that it looks like a normal behavior and Google dont ban you. Try to put different sleep time.
+We create a new `.sh` file and add the terminal commands we ran before. We add them multiple time with different keywords we want to check. We also include a time out ( `sleep` ) in between the command so that it looks like a normal behavior and Google dont ban you. Try to put different sleep time.
 
 ```shell
 #! /bin/bash
 
-/usr/bin/python3 /path_to_my_script/rank.py [website] [keyword1] 
+/usr/bin/python3 /path_to_my_script/rank.py [website] [device] [keyword1] 
 sleep 30
-/usr/bin/python3 /path_to_my_script/rank.py [website] [keyword2] 
+/usr/bin/python3 /path_to_my_script/rank.py [website] [device] [keyword2]  
 sleep 20
-/usr/bin/python3 /path_to_my_script/rank.py [website] [keyword3] 
+/usr/bin/python3 /path_to_my_script/rank.py [website] [device] [keyword3]  
 sleep 30
-/usr/bin/python3 /path_to_my_script/rank.py [website] [keyword4] 
+/usr/bin/python3 /path_to_my_script/rank.py [website] [device] [keyword4]  
 sleep 25
-/usr/bin/python3 /path_to_my_script/rank.py [website] [keyword5] 
+/usr/bin/python3 /path_to_my_script/rank.py [website] [device] [keyword5] 
 
 ```
 
@@ -88,8 +96,7 @@ and then to test the shell script. We go to the console and run it
 ```shell
 ./rank.sh
 ```
-This will output 5 csv files and the output file name is composed by the date + [keyword]
-
+This will output 5 csv files and the output file name is composed by the date + `[keyword]` + `[device]`
 
 ## Cronjob
 
@@ -112,7 +119,9 @@ after adding this we press esc and add `:wq` to save.
 
 If you want to contribute or fix anything please feel free to do so. 
 
-If you have any question about setting this up please contact me and I will try to answer back.
+If you have any question or need help setting this up please open an issue and will try to help.
+
+
 
 
 
