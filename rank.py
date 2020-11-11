@@ -1,17 +1,20 @@
 import sys
 import re
 import random
+from random import randint
 from robobrowser import RoboBrowser
 import datetime
 import csv
+import pandas as pd
+import time
 
 #Terminal arguments to pass when running the script
 sitename = sys.argv[1]
 device = sys.argv[2]
-keyword = "+".join(sys.argv[3:])
+#keyword = "+".join(sys.argv[3:])
 
 #printing the arguments before script starts 
-print("site: %s keyword: %s device: %s"  % (sitename, keyword , device))
+#print("site: %s keyword: %s device: %s"  % (sitename, keyword , device))
 
 
 #Mobile user agent strings found on https://deviceatlas.com/blog/mobile-browser-user-agent-strings
@@ -53,7 +56,13 @@ desktop_agent = [
 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:54.0) Gecko/20100101 Firefox/54.0']
 
 
-#Creating Mobile function with 4 aerguments.
+#Creating Mobile function with 4 arguments.
+"""
+keyword: Keyword that we are checking that comes from keywords.xls
+sitename: the URL we want to chekc against. Its define when we run the script
+device: Mobile or desktop. Its define when we run the script
+useragent: selected randomly from list when we know device.
+"""
 def mobile(keyword,sitename,device,useragent):
     parser = 'html.parser'
  
@@ -133,6 +142,12 @@ def desktop(keyword,sitename,device,useragent):
     csv_export(d,keyword,device)
 
 #function to export to csv file.
+
+"""
+d: Is the complete dataframe we generate on our mobile() or desktop() functions with all the important data
+keyword: Keyword we run. We need this only to add it to the name of the csv
+device: device we checked. We need this only to add it to the name of csv.
+"""
 def csv_export(d,keyword,device):
     file =datetime.date.today().strftime("%d-%m-%Y")+'-' +keyword + '-' + device +'.csv'
     with open(file, 'w') as f:
@@ -141,23 +156,39 @@ def csv_export(d,keyword,device):
         writer.writerows(zip( d[0::5], d[1::5] , d[2::5], d[3::5] , d[4::5]))
 
 
+#Keyword file
+keywords = pd.read_excel('keywords.xls')
 
 #user agent checker. Here depending on what the user agent was passed in th sys arguments we perform diferent functions.
 if device == 'mobile' :
     useragent = random.choice(mobile_agent)
-    print('Using mobile device')
-    mobile(keyword,sitename,device,useragent)
+    print('Using mobile device')  
+    for keyword in keywords['Keywords']:
+        print(keyword)
+        mobile(keyword,sitename,device,useragent)
+        t = randint(1,10)
+        print('Sleeping time is' ,t ,'Seconds')
+        time.sleep(t)
+   
+  
 elif device == 'desktop':
     print('Using desktop device')
     useragent = random.choice(desktop_agent)
-    desktop(keyword,sitename,device,useragent)
+    for keyword in keywords['Keywords']:
+        print(keyword)
+        desktop(keyword,sitename,device,useragent)
+        t = randint(1,10)
+        print('Sleeping time is' ,t ,'Seconds')
+        time.sleep(t)
 else:
     print(" X_X You didn't specify a user agent. We will still run the script but your filename will have a weird name")
     useragent = random.choice(mobile_agent)
-    mobile(keyword,sitename,device,useragent)
-
-
-
+    for keyword in keywords['Keywords']:
+        print(keyword)
+        mobile(keyword,sitename,device,useragent)
+        t = randint(1,10)
+        print('Sleeping time is' ,t ,'Seconds')
+        time.sleep(t)
 
 
 

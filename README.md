@@ -9,6 +9,8 @@ One thing to note, currently the script does not use proxies to check for the ke
 
 **Update**: I have updated the script by adding the possibility of choosing what device you want to make the rank check. The 2 options are Mobile and Desktop. I will still leave the old script here but will change the name to rank_legacy.py.
 
+**Update2**: Included a keyword.xls file that will runn all you keywords from there. No need to add each one of those on the `.sh` file anymore. I also added a random sleep between queries so that Google wont catch us. The script now is more simple and easy to use.
+
 
 ## Table of Contents 
 
@@ -17,7 +19,6 @@ One thing to note, currently the script does not use proxies to check for the ke
 - [Creating a Shell Script](#creating-a-shell-script)
 - [Cronjob](#cronjob)
 - [Contributing & Questions](#cintributing-and-questions)
-
 
 ---
 
@@ -36,17 +37,17 @@ We open the terminal and go to the folder that `rank.py` is saved and give the s
 ```shell
 chmod +x rank.py
 ```
-Now we are able to call our script followed by 3 arguments: the website we are looking for, the device we want to check on this can be mobile or desktop and the keyword we want to check.
+Now we are able to call our script followed by 2 arguments: the website we are looking for and the device we want to check on this can be mobile or desktop.
 
 ```shell
-python3 rank.py [website] [device] [keyword]
+python3 rank.py [website] [device] 
 ```
 
 ### For example 
-We want to check the website https://www.uselessthingstobuy.com/ on mobile against the keyword **nothing package**
+We want to check the website https://www.uselessthingstobuy.com/ on mobile against the keyword **nothing package** we need to include the keyword on keywords.xls file and run
 
 ```shell
-python3 rank.py https://www.uselessthingstobuy.com/ mobile nothing package
+python3 rank.py https://www.uselessthingstobuy.com/ mobile
 ```
 
 This will output the keyword, the ranking of the keyword, the URL that is ranking on Google, the device you chose and the date we did this rank check.
@@ -66,22 +67,16 @@ For example:
 
 ## Creating a shell script
 
-Now that we tested that `rank.py` works fine, we will go ahead and create a shell script that will check for multiple keywords.
+Now that we tested that `rank.py` works fine, we will go ahead and create a shell script that will check run our.
 
-We create a new `.sh` file and add the terminal commands we ran before. We add them multiple time with different keywords we want to check. We also include a time out ( `sleep` ) in between the command so that it looks like a normal behavior and Google don’t ban you. Try to put different sleep time.
+We create a new `.sh` file and add the terminal commands we ran before. Since now we are running everything out of a keyword.xls file to make everything easier, we can call the script with the URL we want and the device we want to check in our `rank.sh` file. 
+So forget about adding multiple lines and sleep times. I included the sleep times on the script and they do random number between 1,10 so that Google wont catch us. So the only thing we need to include is the following:
 
 ```shell
 #! /bin/bash
 
-/usr/bin/python3 /path_to_my_script/rank.py [website] [device] [keyword1] 
-sleep 30
-/usr/bin/python3 /path_to_my_script/rank.py [website] [device] [keyword2]  
-sleep 20
-/usr/bin/python3 /path_to_my_script/rank.py [website] [device] [keyword3]  
-sleep 30
-/usr/bin/python3 /path_to_my_script/rank.py [website] [device] [keyword4]  
-sleep 25
-/usr/bin/python3 /path_to_my_script/rank.py [website] [device] [keyword5] 
+/usr/bin/python3 /path_to_my_script/rank.py [website] [device] 
+
 
 ```
 
