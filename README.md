@@ -32,7 +32,9 @@ pip install robobrowser
 After all dependencies are installed, we can start testing if the script is working fine.
 
 ## Running tests
-We open the terminal and go to the folder that `rank.py` is saved and give the script executing rights.
+Before running any test we want to go into the `keywords.xls` file and add the keywords we want to check the ranks. We can add as many as we want but the more, the higher the chances Google will block you. (I will soon include de option of using proxies.)
+
+After that we open the terminal and go to the folder that `rank.py` is saved and give the script executing rights.
 
 ```shell
 chmod +x rank.py
