@@ -18,7 +18,7 @@ One thing to note, currently the script does not use proxies to check for the ke
 - [Running Tests](#running-tests)
 - [Creating a Shell Script](#creating-a-shell-script)
 - [Cronjob](#cronjob)
-- [Contributing & Questions](#cintributing-and-questions)
+- [Contributing & Questions](#contributing-and-questions)
 
 ---
 
