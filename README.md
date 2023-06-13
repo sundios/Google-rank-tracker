@@ -1,7 +1,7 @@
 
 # Google Keyword Ranking Check with Python 
 
-You can see another SEO script in action here -->  https://www.keywordresearchtool.io/
+You can see another SEO script in action here --> <a href="https://www.keywordresearchtool.io/" rel="follow">https://www.keywordresearchtool.io/</a>
 
 Are you poor and don’t have money to buy an enterprise rank tracker? Well, today is your lucky day. With this python script, 
 a shell script and crontab, you can automate Google rank checker in a few simple steps.
