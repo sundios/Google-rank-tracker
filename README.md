@@ -1,7 +1,7 @@
 
 # Google Keyword Ranking Check with Python 
 
-You can see another SEO script in action here --> <a href="https://www.kwrds.ai/" rel="follow">[https://www.keywordresearchtool.io/](https://www.kwrds.ai/)</a>
+You can see another SEO script in action here --> <a href="https://www.kwrds.ai/" rel="follow">[https://www.kwrds.ai/](https://www.kwrds.ai/)</a>
 
 
 <a href="https://bmc.link/sundios" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
