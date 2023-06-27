@@ -1,17 +1,20 @@
 
 # Google Keyword Ranking Check with Python 
 
-You can see another SEO script in action here --> <a href="https://www.keywordresearchtool.io/" rel="follow">https://www.keywordresearchtool.io/</a>
+You can see another SEO script in action here --> <a href="https://www.kwrds.ai/" rel="follow">[https://www.keywordresearchtool.io/](https://www.kwrds.ai/)</a>
+
+
+<a href="https://bmc.link/sundios" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
 Are you poor and don’t have money to buy an enterprise rank tracker? Well, today is your lucky day. With this Python script, 
-you can automate the Google rank checker with a shell script and crontab in a few simple steps.
+you can automate the Google rank checker with a shell script and crontab in simple steps.
 I will explain how to implement this and leave it running daily.
-One thing to note, currently, the script does not use proxies to check for the keyword rankings, so if you are looking to run big sets of keywords, Google will notice this and will start showing a captcha.
+One thing to note is that the script does not currently use proxies to check for the keyword rankings, so if you are looking to run big sets of keywords, Google will notice this and start showing a captcha.
 
 
-**Update**: I have updated the script by adding the possibility of choosing what device you want to make the rank check. The two options are Mobile and Desktop. I will still leave the old script here but will change the name to rank_legacy.py.
+**Update**: I have updated the script by adding the possibility of choosing what device you want to make the rank check. The two options are Mobile and Desktop. I will leave the old script here but change the name to rank_legacy.py.
 
-**Update2**: Included a keyword.xls file that will run all your keywords from there. There is no need to add each of those on the `.sh` file anymore. I also added a random sleep between queries so that Google won't catch us. The script now is more simple and easy to use.
+**Update2**: Included a keyword.xls file that will run all your keywords from there. There is no need to add each of those on the `.sh` file anymore. I also added a random sleep between queries so that Google won't catch us. The script is now more straightforward and easy to use.
 
 ## Table of Contents 
 
@@ -40,7 +43,7 @@ After that, we open the terminal, go to the folder where `rank.py` is saved, and
 ```shell
 chmod +x rank.py
 ```
-Now we can call our script followed by two arguments: the website we are looking for and the device we want to check on which can be mobile or desktop.
+Now we can call our script followed by two arguments: the website we are looking for and the device we want to check on, which can be mobile or desktop.
 
 ```shell
 python3 rank.py [website] [device] 
@@ -53,7 +56,7 @@ We want to check the website https://www.uselessthingstobuy.com/ on mobile again
 python3 rank.py https://www.uselessthingstobuy.com/ mobile
 ```
 
-This will output the keyword, the ranking of the keyword, the URL that is ranking on Google, the device you chose, and the date we did this rank check.
+This will output the keyword, the keyword ranking, the URL ranking on Google, the device you chose, and the date we did this rank check.
 
 *Make sure that the device is lowercase. If you misspell the device or add capital, the script will run using mobile device as default*
 
