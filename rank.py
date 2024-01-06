@@ -1,20 +1,19 @@
-import sys
-import re
+import requests
 import random
-from random import randint
-from robobrowser import RoboBrowser
-import datetime
-import csv
+from bs4 import BeautifulSoup
 import pandas as pd
-import time
+import datetime
 
-#Terminal arguments to pass when running the script
-sitename = sys.argv[1]
-device = sys.argv[2]
-#keyword = "+".join(sys.argv[3:])
+# inputs
+keyword = 'houses for sale in california'
+sitename = "https://www.realtor.com/"
+device = 'Desktop'
 
-#printing the arguments before script starts 
-#print("site: %s keyword: %s device: %s"  % (sitename, keyword , device))
+competitor1 = "https://www.zillow.com"
+competitor2 = "https://www.homes.com"
+competitor3 = "https://www.redfin.com"
+
+competitors = [competitor1,competitor2,competitor3]
 
 
 #Mobile user agent strings found on https://deviceatlas.com/blog/mobile-browser-user-agent-strings
@@ -56,149 +55,123 @@ desktop_agent = [
 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:54.0) Gecko/20100101 Firefox/54.0']
 
 
-#Creating Mobile function with 4 arguments.
-"""
-keyword: Keyword that we are checking that comes from keywords.xls
-sitename: the URL we want to chekc against. Its define when we run the script
-device: Mobile or desktop. Its define when we run the script
-useragent: selected randomly from list when we know device.
-"""
-def mobile(keyword,sitename,device,useragent):
-    parser = 'html.parser'
- 
-    browser = RoboBrowser(history=False,
-                          user_agent=useragent,
-                          parser=parser)
-     
-    browser.open('https://www.google.com/search?num=100&q=' + keyword)
+def clean_url(url):
+    """
+   Cleans a given URL by extracting the portion starting from 'https://'
+   up to the '&ved' parameter, if present.
+
+   Parameters:
+   url (str): The URL to be cleaned.
+
+   Returns:
+   str: The cleaned URL or None if 'https://' is not found.
+   """
+    # Find the start of 'https://'
+    start = url.find('https://')
+    if start == -1:
+        return None  # 'https://' not found in the URL
+
+    # Find the end position, which is the start of '&ved'
+    end = url.find('&ved', start)
+    if end == -1:
+        # If '&ved' is not found, return the URL from 'https://' onwards
+        return url[start:]
+    else:
+        # Return the URL from 'https://' up to '&ved'
+        return url[start:end]
     
-    #this is the div that only shows up on mobile device. This might change not sure :/ 
-    links = browser.find_all("div", {"class": "KJDcUb"})
+def rank_check(sitename,serp_df,keyword,type):
+        counter = 0
+        #here is where we count and find our url
+        d=[]
+        for i in serp_df['URLs']:
+            counter = counter + 1
+            if sitename in str(i):
+                rank = "%d" % (counter)
+                url = i 
+                now = datetime.date.today().strftime("%d-%m-%Y")
+                d.append([keyword,rank,url,now,type])
+                print(keyword,rank,url, now)
+                
+        df = pd.DataFrame(d)
+        df['Rank'] = df['Rank'].astype(int)
+        
+        df.columns = ['Keyword', 'Rank', 'URLs','Date','Type']
+                
+        return df
+                
 
-    # links = browser.find_all("div", {"class": "g"})
-     
-    counter = 0
-
-
-    print('The user Agent you used was ----> ' + useragent)
-
-    #here is where we count and find our url
-    d=[]
-    for i in links:
-        counter = counter + 1
-        if sitename in str(i):
-            url = i.find_all('a', href=True)
-            position = "%d" % (counter)
-            rank = "%s" % (url[0]['href'])
-            now = datetime.date.today().strftime("%d-%m-%Y")
-            keyword = keyword
-            device = device
-            d.append(keyword)
-            d.append(position)
-            d.append(rank)
-            d.append(device)
-            d.append(now)
-            print(keyword, position, rank, device, now)
+def get_data(keyword,sitename,headers):
+    # Google Search URL
+    google_url = 'https://www.google.com/search?num=100&q='
     
-    #invoking csv export function 
-    csv_export(d,keyword,device)
+    #checking what device we are checking
+    if device.lower() == 'mobile':
+        print('Using Mobile UserAgent')
+        useragent = random.choice(mobile_agent)      
+        headers = {'User-Agent': useragent}
+        
+    elif device.lower() ==' desktop':
+        print('Using Desktop UserAgent')
+        useragent = random.choice(desktop_agent)      
+        headers = {'User-Agent': useragent}
+        
 
-#desktop function. Exactly the same as mobile with the difference of div that we look for our URLs
-def desktop(keyword,sitename,device,useragent):
-    parser = 'html.parser'
- 
-    browser = RoboBrowser(history=False,
-                          user_agent=useragent,
-                          parser=parser)
-     
-    browser.open('https://www.google.com/search?num=100&q=' + keyword)
-     
-    # links = browser.find_all("div", {"class": "KJDcUb"})
-
-    #desktop div where URLs are
-    links = browser.find_all("div", {"class": "g"})
-     
-    counter = 0
-
-    print('The user Agent you used was ----> ' + useragent)
-
-    d=[]
-    for i in links:
-        counter = counter + 1
-        if sitename in str(i):
-            url = i.find_all('a', href=True)
-            position = "%d" % (counter)
-            rank = "%s" % (url[0]['href'])
-            now = datetime.date.today().strftime("%d-%m-%Y")
-            keyword = keyword
-            device = device
-            d.append(keyword)
-            d.append(position)
-            d.append(rank)
-            d.append(device)
-            d.append(now)
-            print(keyword, position, rank, device, now)
+    # Make the request
+    response = requests.get(google_url + keyword, headers=headers)
     
-    csv_export(d,keyword,device)
+    # Check if the request was successful
+    if response.status_code == 200:
+        print('True')
+        # Parse the content
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        if device.lower() == 'mobile':
+            # Find search results
+            #titles = soup.find_all('h3', limit=10)
+            #div 
+            print('mobile')
+            urls = soup.find_all('div', class_="KJDcUb")
 
-#function to export to csv file.
-
-"""
-d: Is the complete dataframe we generate on our mobile() or desktop() functions with all the important data
-keyword: Keyword we run. We need this only to add it to the name of the csv
-device: device we checked. We need this only to add it to the name of csv.
-"""
-def csv_export(d,keyword,device):
-    file =datetime.date.today().strftime("%d-%m-%Y")+'-' +keyword + '-' + device +'.csv'
-    with open(file, 'w') as f:
-        writer = csv.writer(f)
-        writer.writerow(['Keyword' , 'Rank', 'URL' ,'Device', 'Date'])
-        writer.writerows(zip( d[0::5], d[1::5] , d[2::5], d[3::5] , d[4::5]))
-
-
-#Keyword file
-keywords = pd.read_excel('keywords.xls')
-
-#user agent checker. Here depending on what the user agent was passed in th sys arguments we perform diferent functions.
-if device == 'mobile' :
-    useragent = random.choice(mobile_agent)
-    print('Using mobile device')  
-    for keyword in keywords['Keywords']:
-        print(keyword)
-        mobile(keyword,sitename,device,useragent)
-        t = randint(1,10)
-        print('Sleeping time is' ,t ,'Seconds')
-        time.sleep(t)
+        elif device.lower() == 'desktop':
+            urls = soup.find_all('div', class_="egMi0")
+            
+        
+        
+        data= []
+        for div in urls:
+            print(div)
+            soup = BeautifulSoup(str(div), 'html.parser')
+        
+            # Extracting the URL
+            url_anchor = soup.find('a')
+            url = url_anchor['href'] if url_anchor else "No URL"
+            
+            url = clean_url(url)
+        
+            data.append(url)
+            
+        serp_df = pd.DataFrame(data,columns =['URLs'])
+        
+        results = rank_check(sitename,serp_df,keyword,"My Site")
+    
+        #competiors
+        for competitor in competitors:
+            print(competitor)
+            c = rank_check(competitor,serp_df,keyword, "Competitor")
+            results = pd.concat([results, c])
+            print(c)      
+            
+            df = pd.DataFrame(results).sort_values(by='Rank')
+            
+        return df
    
-  
-elif device == 'desktop':
-    print('Using desktop device')
-    useragent = random.choice(desktop_agent)
-    for keyword in keywords['Keywords']:
-        print(keyword)
-        desktop(keyword,sitename,device,useragent)
-        t = randint(1,10)
-        print('Sleeping time is' ,t ,'Seconds')
-        time.sleep(t)
-else:
-    print(" X_X You didn't specify a user agent. We will still run the script but your filename will have a weird name")
-    useragent = random.choice(mobile_agent)
-    for keyword in keywords['Keywords']:
-        print(keyword)
-        mobile(keyword,sitename,device,useragent)
-        t = randint(1,10)
-        print('Sleeping time is' ,t ,'Seconds')
-        time.sleep(t)
 
 
 
-
-
-
-
-
-
-
-
-
-
+KJDcUb
+                
+df = get_data(keyword,sitename,headers)              
+                
+              
+    
