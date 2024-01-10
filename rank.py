@@ -3,7 +3,7 @@ import random
 from bs4 import BeautifulSoup
 import pandas as pd
 import datetime
-import threading
+import time
 from halo import Halo
 from termcolor import colored
 
@@ -20,6 +20,7 @@ competitor1 = "https://www.nike.com"
 competitor2 = "https://www.reebok.com"
 competitor3 = "https://www.ascics.com"
 competitor4 = "https://www.hoka.com"
+
 
 
 competitors = [competitor1,competitor2,competitor3, competitor4]
@@ -56,9 +57,6 @@ desktop_agent = [
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:15.0) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Safari/605.1.15',
 
  ]
-
-
-
 
 
 def clean_url(url):
@@ -127,7 +125,7 @@ def get_data(keyword,sitename,device):
         print(headers)
         
     elif device.lower() =='desktop':
-        print(colored("- Checking Mobile Desktop" ,'black',attrs=['bold']))
+        print(colored("- Checking  Desktop Rankings" ,'black',attrs=['bold']))
         useragent = random.choice(desktop_agent)      
         headers = {'User-Agent': useragent}
         print(headers)
@@ -169,7 +167,7 @@ def get_data(keyword,sitename,device):
         
         results = rank_check(sitename,serp_df,keyword,"My Site")
         
-        print(colored(f"- Ranking results for {sitename}",'black',attrs=['bold']))
+        print(colored(f"- Rankings results for {sitename}",'black',attrs=['bold']))
         print(results)
     
         #competiors
@@ -200,25 +198,23 @@ def get_data(keyword,sitename,device):
 
                 
 mobile = get_data(keyword,sitename,'mobile')
-import time
-
 # Wait for 5 seconds
 time.sleep(5)
-#desktop = get_data(keyword,sitename,'desktop')          
+desktop = get_data(keyword,sitename,'desktop')          
                 
 
 
-# try:
-#     with pd.ExcelWriter(f"{keyword}.xlsx", engine='openpyxl') as writer:
+try:
+    with pd.ExcelWriter(f"{keyword}.xlsx", engine='openpyxl') as writer:
         
-#         # Write each DataFrame to a different worksheet
-#         desktop.to_excel(writer, sheet_name='Desktop')
-#         mobile.to_excel(writer, sheet_name='Mobile')
-#     pass
-# except Exception:
-#     print('No Data, please try again')
+        # Write each DataFrame to a different worksheet
+        desktop.to_excel(writer, sheet_name='Desktop')
+        mobile.to_excel(writer, sheet_name='Mobile')
+    pass
+except Exception:
+    print('No Data, please try again')
     
-# Stop the spinner
+#Stop the spinner
 spinner.stop_and_persist(symbol='🤖'.encode('utf-8'), text='All Checks have been finalized!')
 
               
